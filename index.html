@@ -3,9 +3,26 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/style.css">
         <title>Imageboard</title>
     </head>
     <body>
+        <header>
+            <h1>Welcome</h1>
+            <h2>Latest images</h2>
+        </header>
+        
+        <main>
+            <div id="grid-template">
+                <div id="polaroid" v-for="image in images">
+                    <img v-bind:src="image.url" v-bind:alt="image.title">
+                    <p>{{ image.title }}</p>
+                </div>
+            </div>
+        </main>
+
+        <script src="/server.js"></script>
+        <script src="https://unpkg.com/vue@3"></script>s
         <script
             src="/js/app.js"
             type="module"
