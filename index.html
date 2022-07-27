@@ -1,28 +1,62 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
         <title>Imageboard</title>
     </head>
+
     <body>
         <header>
-            <h1>Welcome</h1>
-            <h2>Latest images</h2>
+            <h1>Welcome to blabla</h1>
         </header>
-        
+
         <main>
-            <div id="grid-template">
-                <div id="polaroid" v-for="image in images">
-                    <img v-bind:src="image.url" v-bind:alt="image.title">
-                    <p>{{ image.title }}</p>
+            <section id="upload-section">
+                <h2>UPLOAD YOUR IMAGES</h2>
+
+                <form action="/images" method="post" enctype="multipart/form-data" @submit="onFormSubmit">
+                    <div id="form-top-row">
+                        <input v-model="uploadTitle" placeholder="Title" name="uploadTitle" class="uploadInput"> 
+                        <input v-model="uploadDescription" placeholder="Description" name="uploadDescription" class="uploadInput"> 
+                        <input v-model="uploadUsername" placeholder="Username" name="uploadUsername" class="uploadInput"> 
+                    </div>
+                    <div id="form-bottom-row">
+                        <input type="file" name="uploadPicture" id="uploadPicture" accept="image/*"> 
+                        <input type="submit" value="upload" id="uploadSubmit">
+                    </div>
+                </form>
+
+            </section>
+
+            <h2 id="title-latest-images">LATEST IMAGES</h2>
+
+            <section id="polaroid-section">
+                <div id="polaroid-space">
+                    <div id="polaroid" v-for="image in images">
+                        <img v-bind:src="image.url" v-bind:alt="image.description">
+                        <p>{{ image.title }}</p>
+                    </div>
                 </div>
-            </div>
+
+            </section>
         </main>
 
+        <footer>
+        </footer>
+
         <script src="/server.js"></script>
-        <script src="https://unpkg.com/vue@3"></script>s
+        <script src="/js/uploader.js"></script>
+        <script src="https://unpkg.com/vue@3"></script>
         <script
             src="/js/app.js"
             type="module"
