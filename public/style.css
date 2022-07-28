@@ -6,32 +6,59 @@
 h1 {
     font-family: "Baloo 2", cursive;
     font-size: 10vh;
+    text-align: center;
+    line-height: 12vh;
 }
 
 h2 {
     font-family: "Baloo 2", cursive;
+    font-size: 2.5vw;
+}
+
+#heart {
     font-size: 5vh;
+    align-self: flex-end;
+    justify-self: flex-end;
+    color: white;
+    background-color: white;
+    text-decoration: none;
+    border: none;
+}
+
+#heart:hover {
+    color: lightgrey;
+}
+
+#heart:active {
+    color: red;
+}
+
+#heart:focus {
+    color: red;
 }
 
 #title-latest-images {
     width: 100vw;
+    height: 5vw;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     color: white;
     background-color: black;
     padding-left: 6vw;
 }
 
-p {
-    font-family: "Patrick Hand", cursive;
-    font-size: 4vh;
-}
-
 header {
     width: 100vw;
-    height: 20vh;
+    height: 40vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-image: url("/images/daniele-levis-pelusi-mkMSXR86kYY-unsplash.jpg");
+    background-size: cover;
 }
 
 main {
@@ -46,7 +73,6 @@ main {
 #upload-section {
     width: 100vw;
     height: 20vh;
-    background-color: white;
     padding-left: 6vw;
     display: flex;
     flex-direction: column;
@@ -90,9 +116,9 @@ main {
     border: none;
 }
 
-#polaroid-space {
-    margin-top: 5vw;
+#polaroid-section {
     width: 90vw;
+    margin-top: 5vw;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 5vw;
@@ -100,26 +126,45 @@ main {
 }
 
 #polaroid {
-    height: 28vw;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-top: 8%;
-    padding-left: 8%;
-    padding-right: 8%;
-    padding-bottom: 16%;
+    height: 30vw;
     box-shadow: 8px 8px;
     background-color: white;
 }
 
-#polaroid > img {
-    object-fit: cover;
+#polaroid-image {
+    height: 20vw;
+    flex-direction: column;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    margin-top: 2vw;
+    margin-bottom: 0vw;
+    align-items: center;
+    justify-content: center;
+}
+
+#polaroid-image > img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+#polaroid-text {
+    width: 100%;
+    height: 8vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* font-family: "Patrick Hand", cursive; */
+    font-family: "Edu NSW ACT Foundation";
+    /* font-family: "Gloria Hallelujah", cursive; */
+    font-size: 2vw;
+    text-align: center;
+    background-color: white;
 }
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
-    #polaroid-space {
+    #polaroid-section {
         grid-template-columns: 1fr;
     }
 }

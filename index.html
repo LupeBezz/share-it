@@ -12,51 +12,57 @@
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
         <title>Imageboard</title>
     </head>
 
     <body>
         <header>
             <h1>Welcome to blabla</h1>
-        </header>
 
-        <main>
-            <section id="upload-section">
-                <h2>UPLOAD YOUR IMAGES</h2>
+            <div id="main">
+                <modal-component v-if="id" :id="id" @close="closeAppModal"></modal-component>
 
-                <form action="/images" method="post" enctype="multipart/form-data" @submit="onFormSubmit">
-                    <div id="form-top-row">
-                        <input v-model="uploadTitle" placeholder="Title" name="uploadTitle" class="uploadInput"> 
-                        <input v-model="uploadDescription" placeholder="Description" name="uploadDescription" class="uploadInput"> 
-                        <input v-model="uploadUsername" placeholder="Username" name="uploadUsername" class="uploadInput"> 
+                <section id="upload-section">
+                    <h2>UPLOAD YOUR IMAGES</h2>
+
+                    <form action="/images" method="post" enctype="multipart/form-data" @submit="onFormSubmit">
+                        <div id="form-top-row">
+                            <input v-model="uploadTitle" placeholder="Title" name="uploadTitle" class="uploadInput"> 
+                            <input v-model="uploadDescription" placeholder="Description" name="uploadDescription" class="uploadInput"> 
+                            <input v-model="uploadUsername" placeholder="Username" name="uploadUsername" class="uploadInput"> 
+                        </div>
+                        <div id="form-bottom-row">
+                            <input type="file" name="uploadPicture" id="uploadPicture" accept="image/*"> 
+                            <input type="submit" value="upload" id="uploadSubmit">
+                        </div>
+                    </form>
+
+                </section>
+            </header>
+
+            <main>
+                <h2 id="title-latest-images">LATEST IMAGES</h2>
+
+                <section id="polaroid-section">
+                        <div id="polaroid" v-for="image in images">
+                            <div id="polaroid-image">
+                                <img v-bind:src="image.url" v-bind:alt="image.description" @click="this.id=image.id">
+                            </div>
+                            <p id="polaroid-text">{{ image.title }}</p>
+                            <!-- <button id="heart">&hearts;</button> -->
                     </div>
-                    <div id="form-bottom-row">
-                        <input type="file" name="uploadPicture" id="uploadPicture" accept="image/*"> 
-                        <input type="submit" value="upload" id="uploadSubmit">
-                    </div>
-                </form>
-
-            </section>
-
-            <h2 id="title-latest-images">LATEST IMAGES</h2>
-
-            <section id="polaroid-section">
-                <div id="polaroid-space">
-                    <div id="polaroid" v-for="image in images">
-                        <img v-bind:src="image.url" v-bind:alt="image.description">
-                        <p>{{ image.title }}</p>
-                    </div>
+                </section>
                 </div>
+            </main>
 
-            </section>
-        </main>
+        </div>
 
         <footer>
         </footer>
 
-        <script src="/server.js"></script>
-        <script src="/js/uploader.js"></script>
-        <script src="https://unpkg.com/vue@3"></script>
+
         <script
             src="/js/app.js"
             type="module"

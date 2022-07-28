@@ -4,12 +4,24 @@
 
 import * as Vue from "./vue.js";
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - we import the components
+
+import modalComponent from "./modalcomponent.js";
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - we initialise the Vue app
 
 const app = Vue.createApp({
     data() {
-        return { images: [], message: [] };
+        return {
+            uploadTitle: "",
+            uploadDescription: "",
+            uploadUsername: "",
+            images: [],
+            message: [],
+            id: 0,
+        };
     },
+    components: { "modal-component": modalComponent },
     methods: {
         onFormSubmit(e) {
             console.log("form trying to submit");
@@ -44,6 +56,9 @@ const app = Vue.createApp({
                     this.status = err.status;
                 });
         },
+        closeAppModal: function () {
+            this.id = 0;
+        },
     },
     mounted() {
         fetch("/images.json")
@@ -56,4 +71,4 @@ const app = Vue.createApp({
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - we mount the Vue app
 
-app.mount("main");
+app.mount("body");

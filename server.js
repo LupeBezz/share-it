@@ -35,6 +35,22 @@ app.get("/images.json", (req, res) => {
         });
 });
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - get image info from database
+
+app.get("/image/:id", (req, res) => {
+    console.log("hitting /image/:id route");
+    console.log("req.params: ", req.params);
+
+    db.getImagesInfo(req.params.id)
+        .then((results) => {
+            console.log("results.rows: ", results.rows);
+            res.json(results.rows);
+        })
+        .catch((err) => {
+            console.log("error in getImagesInfo", err);
+        });
+});
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - post images
 
 app.post(

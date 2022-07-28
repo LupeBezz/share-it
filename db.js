@@ -34,3 +34,9 @@ module.exports.insertImage = (title, description, username, url) => {
         [title, description, username, url]
     );
 };
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function getImagesInfo
+
+module.exports.getImagesInfo = (id) => {
+    return db.query(`SELECT * FROM images WHERE id = $1`, [id]);
+};
