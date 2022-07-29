@@ -18,11 +18,11 @@
     </head>
 
     <body>
-        <header>
-            <h1>Welcome to blabla</h1>
+        
+        <div id="main">
 
-            <div id="main">
-                <modal-component v-if="id" :id="id" @close="closeAppModal"></modal-component>
+            <header>
+                <h1>Welcome to blabla</h1>
 
                 <section id="upload-section">
                     <h2>UPLOAD YOUR IMAGES</h2>
@@ -40,33 +40,43 @@
                     </form>
 
                 </section>
+
+
+
             </header>
 
             <main>
-                <h2 id="title-latest-images">LATEST IMAGES</h2>
 
-                <section id="polaroid-section">
-                        <div id="polaroid" v-for="image in images">
-                            <div id="polaroid-image">
-                                <img v-bind:src="image.url" v-bind:alt="image.description" @click="this.id=image.id">
-                            </div>
-                            <p id="polaroid-text">{{ image.title }}</p>
-                            <!-- <button id="heart">&hearts;</button> -->
+            <modal-component v-if="id" :id="id" @close="closeAppModal"></modal-component>
+                        <h2 id="title-latest-images">LATEST IMAGES</h2>
+
+
+            <section id="polaroid-section">
+                <div id="polaroid" v-for="image in images">
+                    <div id="polaroid-image">
+                        <img v-bind:src="image.url" v-bind:alt="image.description" @click="this.id=image.id">
                     </div>
-                </section>
+                    <p id="polaroid-text">{{ image.title }}</p>
+                    <!-- <button id="heart">&hearts;</button> -->
                 </div>
+
+            </section>
+            
+            <button type="button"  v-if="button" @click="getMoreImages" id="button-more-images">More images</button>
+
             </main>
+
+
 
         </div>
 
-        <footer>
-        </footer>
+    <footer>
+    </footer>
 
-
-        <script
-            src="/js/app.js"
-            type="module"
-            crossorigin="use-credentials"
-        ></script>
+    <script
+        src="/js/app.js"
+        type="module"
+        crossorigin="use-credentials"
+    ></script>
     </body>
 </html>

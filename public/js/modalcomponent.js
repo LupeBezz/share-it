@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - we import Vue and its functions (we won't touch that file)
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - we import the components
+
+import commentsComponent from "./commentscomponent.js";
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - modal component
 
 const modalComponent = {
     data() {
@@ -17,10 +21,16 @@ const modalComponent = {
                 this.imageInfo = imageInfoDB[0];
                 let unparsedData = imageInfoDB[0].created_at;
                 // let parsedData = unparsedData.slice(0, 10);
-                let parsedData = unparsedData.slice(0, 10);
+                let parsedData =
+                    unparsedData.slice(8, 10) +
+                    "/" +
+                    unparsedData.slice(5, 7) +
+                    "/" +
+                    unparsedData.slice(0, 4);
                 this.imageData = parsedData;
             });
     },
+    components: { "comments-component": commentsComponent },
     methods: {
         // selectImageId: function () {},
         closeModal: function () {
@@ -29,14 +39,20 @@ const modalComponent = {
         },
     },
     template: `
-        <div id='test'>
-            <p id="modal-x" @click="closeModal"> X </p>
-            <img v-bind:src="imageInfo.url" width="50">
-            <p id="modal-title">{{imageInfo.title}}</p>
-            <p id="modal-description">{{imageInfo.description}}</p>
-            <p id="modal-username">Uploaded by {{imageInfo.username}} on {{imageData}} </p>
+        <div id="modal">
+            <div id='modal-window'>
+                <img id="modal-image" v-bind:src="imageInfo.url">
+                <div id="modal-text">
+                    <p id="modal-title">{{imageInfo.title}} - {{imageInfo.description}} </p>
+                    <p id="modal-username">Uploaded by {{imageInfo.username}} on {{imageData}} </p>
+                    <comments-component :id="id"></comments-component>
+                </div>  
+            </div>
+            <div id="overlay" @click="closeModal"></div>
         </div>`,
 };
+
+//<p id="modal-x" @click="closeModal"> X </p>
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - we export the component
 

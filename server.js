@@ -5,6 +5,7 @@
 const path = require("path");
 const express = require("express");
 const app = express();
+app.use(express.urlencoded({ extended: false }));
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - require other files
 
@@ -35,6 +36,20 @@ app.get("/images.json", (req, res) => {
         });
 });
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - get more images from database
+
+app.get("/more-images/:id", (req, res) => {
+    db.getMoreImages(req.params.id)
+        .then((results) => {
+            //console.log("results.rows: ", results.rows);
+            res.json(results.rows);
+        })
+        .catch((err) => {
+            console.log("error in getMoreImages after db query: ", err);
+            console.log(req.params.id);
+        });
+});
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - get image info from database
 
 app.get("/image/:id", (req, res) => {
@@ -43,7 +58,7 @@ app.get("/image/:id", (req, res) => {
 
     db.getImagesInfo(req.params.id)
         .then((results) => {
-            console.log("results.rows: ", results.rows);
+            //console.log("results.rows: ", results.rows);
             res.json(results.rows);
         })
         .catch((err) => {
@@ -81,6 +96,38 @@ app.post(
             });
     }
 );
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - get comments from database
+
+app.get("/comments/:id", (req, res) => {
+    db.getComments(req.params.id)
+        .then((results) => {
+            console.log("results.rows: ", results.rows);
+            res.json(results.rows);
+        })
+        .catch((err) => {
+            console.log("error in getComments", err);
+        });
+});
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - post comments
+
+app.post("/upload/comment", (req, res) => {
+    //console.log("inside post -upload.json");
+    //console.log("req.body inside post-upload: ", req.body);
+    //console.log("req.file inside post-upload:", req.file);
+
+    db.insertComment(req.body.id, req.body.comment, req.body.username)
+        .then((results) => {
+            console.log("insertComment worked!");
+            // console.log("results:", results);
+            console.log("results.rows from insertComment:", results.rows);
+            res.json(results.rows);
+        })
+        .catch((err) => {
+            console.log("error in insertComment", err);
+        });
+});
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - get * basic html - always at the end!!!
 

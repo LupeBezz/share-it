@@ -19,6 +19,8 @@ const app = Vue.createApp({
             images: [],
             message: [],
             id: 0,
+            lowestIdOnTable: "",
+            button: 1,
         };
     },
     components: { "modal-component": modalComponent },
@@ -59,6 +61,45 @@ const app = Vue.createApp({
         closeAppModal: function () {
             this.id = 0;
         },
+        getMoreImages() {
+            let imageIdArray = [];
+            this.images.forEach((image) => imageIdArray.push(image.id));
+            // console.log("imageIds: ", imageIdArray);
+            // console.log("smallest-imageIds: ", Math.min(...imageIdArray));
+
+            let lowestIdOnScreen = Math.min(...imageIdArray);
+            // console.log("lowestIdOnScreen:", lowestIdOnScreen);
+
+            fetch(`/more-images/${lowestIdOnScreen}`)
+                .then((res) => res.json())
+
+                .then((moreImages) => {
+                    moreImages.forEach((image) => this.images.push(image));
+                    this.lowestIdOnTable = moreImages[0].lowestIdOnTable;
+
+                    // console.log("moreImages: ", moreImages);
+                    // console.log(
+                    //     "moreImages[0].lowestIdOnTable",
+                    //     moreImages[0].lowestIdOnTable
+                    // );
+                    // console.log("updated array: ", this.images);
+
+                    console.log("this.lowestIdOnTable: ", this.lowestIdOnTable);
+                    console.log(
+                        "this.images[this.images.length - 1].id: ",
+                        this.images[this.images.length - 1].id
+                    );
+                    if (
+                        this.images[this.images.length - 1].id ===
+                        this.lowestIdOnTable
+                    ) {
+                        this.button = 0;
+                    }
+                })
+                .catch((err) => {
+                    this.status = err.status;
+                });
+        },
     },
     mounted() {
         fetch("/images.json")
@@ -66,6 +107,10 @@ const app = Vue.createApp({
             .then((imagesArray) => {
                 this.images = imagesArray;
             });
+
+        // if (this.images.length >= 3) {
+        //     this.button = 1;
+        // }
     },
 });
 

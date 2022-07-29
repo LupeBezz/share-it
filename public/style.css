@@ -3,6 +3,8 @@
     margin: 0;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - general */
+
 h1 {
     font-family: "Baloo 2", cursive;
     font-size: 10vh;
@@ -15,7 +17,7 @@ h2 {
     font-size: 2.5vw;
 }
 
-#heart {
+/* #heart {
     font-size: 5vh;
     align-self: flex-end;
     justify-self: flex-end;
@@ -35,7 +37,7 @@ h2 {
 
 #heart:focus {
     color: red;
-}
+} */
 
 #title-latest-images {
     width: 100vw;
@@ -48,7 +50,19 @@ h2 {
     color: white;
     background-color: black;
     padding-left: 6vw;
+    z-index: 1;
 }
+
+main {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: lightgray;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - header section */
 
 header {
     width: 100vw;
@@ -61,14 +75,7 @@ header {
     background-size: cover;
 }
 
-main {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: lightgray;
-}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - upload section */
 
 #upload-section {
     width: 100vw;
@@ -116,6 +123,8 @@ main {
     border: none;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - polaroid section */
+
 #polaroid-section {
     width: 90vw;
     margin-top: 5vw;
@@ -129,6 +138,10 @@ main {
     height: 30vw;
     box-shadow: 8px 8px;
     background-color: white;
+}
+
+#polaroid:hover {
+    transform: scale(1.1);
 }
 
 #polaroid-image {
@@ -162,6 +175,97 @@ main {
     text-align: center;
     background-color: white;
 }
+
+#button-more-images {
+    width: 8vw;
+    height: 3vh;
+    background-color: black;
+    color: white;
+    border: 3px solid black;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - modal window */
+
+#modal {
+    height: 100%;
+    width: 100%;
+    /* position: absolute;
+    top: 0; */
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#overlay {
+    position: fixed;
+    inset: 0px;
+    background-color: rgb(0, 0, 0, 75%);
+    transition: background-color 500ms ease-in-out;
+    z-index: 0;
+}
+
+#modal-window {
+    width: auto;
+    height: 85vh;
+    background-color: white;
+    z-index: 1;
+    font-family: "Baloo 2", cursive;
+    font-size: 1vw;
+    box-shadow: 8px 8px;
+}
+
+/* #modal-x {
+    margin-right: 3vw;
+    font-family: "Baloo 2", cursive;
+    font-size: 2vw;
+    text-align: right;
+} */
+
+#modal-image {
+    height: 70%;
+    width: auto;
+    justify-self: flex-start;
+    margin-right: 3vw;
+    margin-left: 3vw;
+    margin-top: 3vw;
+}
+
+#modal-text {
+    text-align: center;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - modal window - comments */
+
+#comments-inputfield {
+    width: 10vw;
+    height: 3vh;
+    margin-right: 2vw;
+    box-shadow: 3px 3px;
+    border: none;
+}
+
+#comments-submit {
+    width: 5vw;
+    height: 3vh;
+    margin-right: 2vw;
+    background-color: black;
+    color: white;
+    border: 3px solid black;
+}
+
+#comments-display {
+    width: 90%;
+    max-height: 6vh;
+    overflow: scroll;
+    margin-top: 1vh;
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - @ media */
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
     #polaroid-section {

@@ -20,10 +20,17 @@ if (process.env.NODE_ENV === "production") {
 const spicedPg = require("spiced-pg");
 const db = spicedPg(dbUrl);
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function getImages
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function getImages + getMoreImages
 
 module.exports.getImages = () => {
-    return db.query(`SELECT * FROM images`);
+    return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 3`);
+};
+
+module.exports.getMoreImages = (id) => {
+    return db.query(
+        `SELECT *, (SELECT id FROM images ORDER BY id ASC LIMIT 1) AS "lowestIdOnTable" FROM images WHERE id < $1 ORDER BY id DESC LIMIT 6`,
+        [id]
+    );
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function insertImage
@@ -39,4 +46,22 @@ module.exports.insertImage = (title, description, username, url) => {
 
 module.exports.getImagesInfo = (id) => {
     return db.query(`SELECT * FROM images WHERE id = $1`, [id]);
+};
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function insertComments
+
+module.exports.insertComment = (id, comment, username) => {
+    return db.query(
+        `INSERT INTO comments(image_id, comment, username) VALUES ($1, $2, $3) RETURNING *`,
+        [id, comment, username]
+    );
+};
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function getComments
+
+module.exports.getComments = (id) => {
+    return db.query(
+        `SELECT * FROM comments WHERE image_id = $1 ORDER BY created_at DESC`,
+        [id]
+    );
 };
