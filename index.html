@@ -11,6 +11,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
@@ -22,44 +24,53 @@
         <div id="main">
 
             <header>
-                <h1>Welcome to blabla</h1>
+                <h1>SHARE IT!</h1>
 
                 <section id="upload-section">
                     <h2>UPLOAD YOUR IMAGES</h2>
 
-                    <form action="/images" method="post" enctype="multipart/form-data" @submit="onFormSubmit">
+                    <form id="upload-form" action="/images" method="post" enctype="multipart/form-data" @submit="onFormSubmit">
                         <div id="form-top-row">
-                            <input v-model="uploadTitle" placeholder="Title" name="uploadTitle" class="uploadInput"> 
-                            <input v-model="uploadDescription" placeholder="Description" name="uploadDescription" class="uploadInput"> 
-                            <input v-model="uploadUsername" placeholder="Username" name="uploadUsername" class="uploadInput"> 
+                            <input v-model="uploadTitle" placeholder="Title" name="uploadTitle" class="uploadInput" maxlength="25" autocomplete="off"> 
+                            <input v-model="uploadDescription" placeholder="Description" name="uploadDescription" class="uploadInput" maxlength="50" autocomplete="off"> 
+                            <input v-model="uploadUsername" placeholder="Username" name="uploadUsername" class="uploadInput " maxlength="15" autocomplete="off"> 
                         </div>
-                        <div id="form-bottom-row">
+                        <div id="form-middle-row">
                             <input type="file" name="uploadPicture" id="uploadPicture" accept="image/*"> 
                             <input type="submit" value="upload" id="uploadSubmit">
                         </div>
+                        <div id="form-bottom-row">
+                            <p id="uploadMessage">{{message}}</p>
+                        </div>
                     </form>
-
                 </section>
-
-
-
             </header>
 
             <main>
 
-            <modal-component v-if="id" :id="id" @close="closeAppModal"></modal-component>
-                        <h2 id="title-latest-images">LATEST IMAGES</h2>
+                <div id="title-latest-images-box">
+                    <h2 id="title-latest-images">LATEST IMAGES</h2>
+                    <div id="allFavourites" @click="showFavourites">♥</div>
+                </div>
 
-
-            <section id="polaroid-section">
+            <modal-component v-if="id" :id="id" @favourite="addFavourite" @close="closeAppModal"></modal-component>
+            
+            <section id="polaroid-section" v-if="allpics">
                 <div id="polaroid" v-for="image in images">
                     <div id="polaroid-image">
                         <img v-bind:src="image.url" v-bind:alt="image.description" @click="this.id=image.id">
                     </div>
                     <p id="polaroid-text">{{ image.title }}</p>
-                    <!-- <button id="heart">&hearts;</button> -->
                 </div>
+            </section>
 
+            <section id="polaroid-section" v-if="allfavs">
+                <div id="polaroid" v-for="favourite in favourites">
+                    <div id="polaroid-image">
+                        <img v-bind:src="favourite.url" v-bind:alt="favourite.description" @click="this.id=favourite.id">
+                    </div>
+                    <p id="polaroid-text">{{ favourite.title }}</p>
+                </div>
             </section>
             
             <button type="button"  v-if="button" @click="getMoreImages" id="button-more-images">More images</button>

@@ -58,7 +58,7 @@ app.get("/image/:id", (req, res) => {
 
     db.getImagesInfo(req.params.id)
         .then((results) => {
-            //console.log("results.rows: ", results.rows);
+            console.log("results.rows: ", results.rows);
             res.json(results.rows);
         })
         .catch((err) => {
@@ -133,6 +133,7 @@ app.post("/upload/comment", (req, res) => {
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
+    // history.pushState(null, null, "/");
 });
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - listen to the server

@@ -3,11 +3,16 @@
     margin: 0;
 }
 
+body {
+    background-color: lightgray;
+}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - general */
 
 h1 {
     font-family: "Baloo 2", cursive;
-    font-size: 10vh;
+    font-weight: 800;
+    font-size: 15vh;
     text-align: center;
     line-height: 12vh;
 }
@@ -17,40 +22,8 @@ h2 {
     font-size: 2.5vw;
 }
 
-/* #heart {
-    font-size: 5vh;
-    align-self: flex-end;
-    justify-self: flex-end;
-    color: white;
-    background-color: white;
-    text-decoration: none;
-    border: none;
-}
-
-#heart:hover {
-    color: lightgrey;
-}
-
-#heart:active {
-    color: red;
-}
-
-#heart:focus {
-    color: red;
-} */
-
-#title-latest-images {
-    width: 100vw;
+#separation {
     height: 5vw;
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: white;
-    background-color: black;
-    padding-left: 6vw;
-    z-index: 1;
 }
 
 main {
@@ -66,7 +39,7 @@ main {
 
 header {
     width: 100vw;
-    height: 40vh;
+    height: 45vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -75,20 +48,68 @@ header {
     background-size: cover;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - title and favourites */
+
+#title-latest-images-box {
+    height: 5vw;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#title-latest-images {
+    width: 50vw;
+    height: 5vw;
+    /* position: sticky;
+    top: 0; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+    background-color: black;
+    padding-left: 6vw;
+}
+
+#allFavourites {
+    width: 50vw;
+    height: 5vw;
+    font-size: 2.5vw;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    color: white;
+    background-color: black;
+    padding-right: 6vw;
+}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - upload section */
 
 #upload-section {
     width: 100vw;
     height: 20vh;
     padding-left: 6vw;
+    padding-top: 2.5vw;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
 }
 
-#form-top-row {
-    margin-bottom: 2vh;
+#upload-form {
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#form-middle-row {
+    margin-bottom: 1.5vh;
+    margin-top: 2vh;
 }
 
 .uploadInput {
@@ -118,9 +139,16 @@ header {
     border: 3px solid black;
 }
 
+#uploadMessage {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.5vw;
+    color: red;
+}
+
 ::-webkit-file-upload-button {
-    background-color: lightgray;
     border: none;
+    height: 3vh;
+    background-color: lightgray;
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - polaroid section */
@@ -136,12 +164,13 @@ header {
 
 #polaroid {
     height: 30vw;
-    box-shadow: 8px 8px;
+    box-shadow: 10px 10px;
     background-color: white;
 }
 
 #polaroid:hover {
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
+    box-shadow: 20px 20px;
 }
 
 #polaroid-image {
@@ -168,9 +197,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* font-family: "Patrick Hand", cursive; */
     font-family: "Edu NSW ACT Foundation";
-    /* font-family: "Gloria Hallelujah", cursive; */
     font-size: 2vw;
     text-align: center;
     background-color: white;
@@ -186,13 +213,17 @@ header {
     margin-bottom: 4vh;
 }
 
+#favourite {
+    color: lightgrey;
+    font-size: 3vh;
+    cursor: pointer;
+}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - modal window */
 
 #modal {
     height: 100%;
     width: 100%;
-    /* position: absolute;
-    top: 0; */
     position: fixed;
     bottom: 0;
     top: 0;
@@ -207,68 +238,357 @@ header {
     inset: 0px;
     background-color: rgb(0, 0, 0, 75%);
     transition: background-color 500ms ease-in-out;
-    z-index: 0;
+    /* z-index: 0; */
 }
 
 #modal-window {
-    width: auto;
-    height: 85vh;
+    width: 60vw;
     background-color: white;
-    z-index: 1;
-    font-family: "Baloo 2", cursive;
-    font-size: 1vw;
+    z-index: 5;
     box-shadow: 8px 8px;
+    display: flex;
 }
 
-/* #modal-x {
-    margin-right: 3vw;
-    font-family: "Baloo 2", cursive;
-    font-size: 2vw;
-    text-align: right;
-} */
+#modal-left {
+    height: 100%;
+    width: 60%;
+}
+
+#modal-right {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-items: flex-end; */
+}
 
 #modal-image {
-    height: 70%;
-    width: auto;
-    justify-self: flex-start;
-    margin-right: 3vw;
-    margin-left: 3vw;
-    margin-top: 3vw;
+    height: auto;
+    max-width: 85%;
+    max-height: 75vh;
+    margin: 3vw;
 }
 
 #modal-text {
-    text-align: center;
+    text-align: right;
+    margin-right: 3vw;
+    font-family: "Baloo 2", cursive;
+    font-size: 1vw;
+    margin-bottom: 3vw;
+}
+
+#modal-title {
+    font-weight: 800;
+}
+
+#modal-username {
+    font-weight: 400;
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - modal window - comments */
 
+#comments-input {
+    margin-right: 1vw;
+}
+
 #comments-inputfield {
-    width: 10vw;
+    width: 7vw;
     height: 3vh;
-    margin-right: 2vw;
+    margin-right: 1vw;
     box-shadow: 3px 3px;
+    margin-top: 3vw;
     border: none;
 }
 
 #comments-submit {
     width: 5vw;
     height: 3vh;
-    margin-right: 2vw;
+    margin-top: 1vw;
     background-color: black;
     color: white;
     border: 3px solid black;
 }
 
-#comments-display {
-    width: 90%;
-    max-height: 6vh;
-    overflow: scroll;
-    margin-top: 1vh;
+#comments-message {
+    height: 2vh;
+    font-family: "Baloo 2", cursive;
+    font-size: 1vw;
+    color: red;
+    padding-top: 0.25vw;
 }
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - @ media */
 
-@media screen and (min-width: 320px) and (max-width: 768px) {
+#comments-display {
+    max-height: 80%;
+    overflow: scroll;
+    margin-top: 1vw;
+    margin-right: 3vw;
+    font-family: "Baloo 2", cursive;
+    font-weight: 400;
+    font-size: 0.8vw;
+    background-color: lightgray;
+}
+
+#comments-input-comment {
+    font-family: "Baloo 2", cursive;
+    font-size: 1vw;
+    font-weight: 800;
+}
+
+#comments-input-username {
+    font-family: "Baloo 2", cursive;
+    font-size: 1vw;
+    font-weight: 400;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - @ media - TABLET */
+
+@media screen and (min-width: 768px) and (max-width: 1000px) {
+    #button-more-images {
+        width: 14vw;
+    }
+    #comments-submit {
+        width: 10vw;
+        height: 3vh;
+        margin-top: 1vw;
+        background-color: black;
+        color: white;
+        border: 3px solid black;
+        box-shadow: 3px 3px;
+    }
+    header {
+        height: 45vh;
+    }
+    #uploadMessage {
+        font-size: 2vw;
+    }
+    #comments-inputfield {
+        width: 10vw;
+    }
+    #comments-message {
+        height: 2vh;
+        font-family: "Baloo 2", cursive;
+        font-size: 1.5vw;
+        color: red;
+        padding-top: 0.25vw;
+    }
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - @ media - SMARTPHONE */
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
     #polaroid-section {
         grid-template-columns: 1fr;
+    }
+    #button-more-images {
+        width: 28vw;
+        font-size: 3vw;
+    }
+
+    h1 {
+        font-size: 20vw;
+        margin-top: 8vh;
+    }
+
+    h2 {
+        font-size: 5vw;
+    }
+
+    #title-latest-images-box {
+        height: 5vw;
+        position: sticky;
+        top: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #title-latest-images {
+        width: 50vw;
+        height: 10vw;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: white;
+        background-color: black;
+        /* padding-left: 6vw; */
+        font-family: "Baloo 2", cursive;
+        font-size: 5vw;
+    }
+
+    #allFavourites {
+        width: 50vw;
+        height: 10vw;
+        font-size: 5vw;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        color: white;
+        background-color: black;
+        /* padding-right: 6vw; */
+    }
+
+    header {
+        width: 100vw;
+        height: 35vh;
+    }
+    .uploadInput {
+        width: 28vw;
+        height: 3vh;
+        margin-right: 2vw;
+        box-shadow: 3px 3px;
+        font-size: 3vw;
+    }
+    #uploadPicture {
+        width: 58vw;
+        height: 3vh;
+        margin-right: 2vw;
+        box-shadow: 3px 3px;
+        border: none;
+        text-decoration: none;
+        background-color: white;
+        font-size: 3vw;
+    }
+    #uploadSubmit {
+        width: 28vw;
+        height: 3.2vh;
+        font-size: 3vw;
+        box-shadow: 3px 3px black;
+    }
+    ::-webkit-file-upload-button {
+        border: none;
+        height: 3vh;
+        background-color: lightgray;
+    }
+    #polaroid {
+        height: 50vh;
+        box-shadow: 7px 7px;
+        background-color: white;
+        margin-bottom: 3vh;
+    }
+
+    #polaroid-image {
+        height: 35vh;
+        flex-direction: column;
+        margin-left: 6vw;
+        margin-right: 6vw;
+        margin-top: 6vw;
+        margin-bottom: 8vw;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #polaroid-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 7vw;
+        text-align: center;
+        background-color: white;
+    }
+
+    #modal-window {
+        max-height: 90vh;
+        width: 90vw;
+        background-color: white;
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    #modal-left {
+        width: 100%;
+    }
+
+    #modal-right {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #modal-image {
+        height: auto;
+        width: 100%;
+        max-width: 87%;
+        margin-left: 6vw;
+        margin-right: 6vw;
+        margin-top: 6vw;
+        max-height: 55vh;
+    }
+
+    #modal-text {
+        text-align: center;
+        margin-right: 3vw;
+        min-height: 1vh;
+        margin-top: 3vw;
+        font-family: "Baloo 2", cursive;
+        font-size: 3vw;
+        margin-bottom: 3vw;
+    }
+
+    #modal-title {
+        font-weight: 800;
+    }
+
+    #modal-username {
+        font-weight: 400;
+    }
+
+    #comments-inputfield {
+        width: 30vw;
+        height: 3vh;
+        margin-right: 3vw;
+        box-shadow: 3px 3px;
+        margin-top: 1vw;
+        border: none;
+        font-size: 3vw;
+    }
+
+    #comments-submit {
+        width: 13vw;
+        height: 3vh;
+        font-size: 3vw;
+        margin-bottom: 1px;
+        box-shadow: 3px 3px black;
+        text-align: center;
+    }
+
+    #comments-display {
+        max-height: 47%;
+        overflow: scroll;
+        margin-top: 3vw;
+        margin-right: 0vw;
+
+        font-family: "Baloo 2", cursive;
+        font-weight: 400;
+        font-size: 3vw;
+        background-color: lightgray;
+    }
+
+    #comments-input-comment {
+        font-family: "Baloo 2", cursive;
+        font-size: 3vw;
+        font-weight: 800;
+    }
+
+    #comments-input-username {
+        font-family: "Baloo 2", cursive;
+        font-size: 3vw;
+        font-weight: 400;
+    }
+    #comments-message {
+        height: 2vh;
+        font-family: "Baloo 2", cursive;
+        font-size: 3.5vw;
+        color: red;
+        padding-top: 1vw;
     }
 }

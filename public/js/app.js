@@ -17,50 +17,120 @@ const app = Vue.createApp({
             uploadDescription: "",
             uploadUsername: "",
             images: [],
-            message: [],
+            favourites: [],
+            message: "",
             id: 0,
             lowestIdOnTable: "",
             button: 1,
+            allpics: 1,
+            allfavs: 0,
         };
     },
     components: { "modal-component": modalComponent },
     methods: {
         onFormSubmit(e) {
-            console.log("form trying to submit");
+            //console.log("form trying to submit");
+            this.message = "";
 
             //we want to prevent the automatic upload, because we want to check first whether there is file or not
             e.preventDefault();
 
             // check if there is a file or not - fileInput.files returns an array with (or without!) files
             const form = e.currentTarget;
-            const fileInput = form.querySelector("input[type=file]");
-            console.log(fileInput.files);
+            //console.log("form: ", form);
 
-            //is the Array empty? aka, is there an uploaded picture?
-            if (fileInput.files.length < 1) {
-                alert("please upload a file");
+            const fileInput = form.querySelector("input[type=file]");
+            //console.log("fileInput.files: ", fileInput.files);
+
+            // check if the text input fields exceed the required length
+            const titleInput = form.querySelector("input[name=uploadTitle]");
+            //console.log("titleInput.value: ", titleInput.value);
+            //console.log("titleInput.value.length: ", titleInput.value.length);
+            const descriptionInput = form.querySelector(
+                "input[name=uploadDescription]"
+            );
+            const usernameInput = form.querySelector(
+                "input[name=uploadUsername]"
+            );
+
+            if (titleInput.value.length > 25) {
+                this.message = "your title cannot be longer that 25 characters";
+                return;
+            }
+            if (descriptionInput.value.length > 50) {
+                this.message =
+                    "your description cannot be longer that 50 characters";
+                return;
+            }
+            if (usernameInput.value.length > 15) {
+                this.message =
+                    "your username cannot be longer that 15 characters";
                 return;
             }
 
-            //now that we know there is a file, we submit the form
+            //is the Array files empty? aka, is there an uploaded picture?
+
+            if (fileInput.files.length < 1) {
+                //alert("please upload a file");
+                this.message = "please select a file!";
+                return;
+            }
+
+            //is the file too big? (max 10MB = 10.000.000)
+
+            if (fileInput.files[0].size > 2000000) {
+                //alert("please upload a file");
+                this.message = "your picture cannot be bigger than 2MB";
+                return;
+            } else {
+                // console.log(
+                //     "fileInput.files[0].size: ",
+                //     fileInput.files[0].size
+                // );
+            }
+
+            //now that we know that everything is ok, we submit the form
+            this.message = "your file is being uploaded";
             const formData = new FormData(form);
             fetch("/upload.json", { method: "post", body: formData })
                 .then((res) => res.json())
 
                 .then((serverData) => {
-                    console.log("serverData[0]: ", serverData[0]);
+                    //console.log("serverData[0]: ", serverData[0]);
 
                     //if there is an image, push it to the empty array
                     this.images.unshift(serverData[0]);
                     this.status = serverData.status;
+                    this.message = "";
+                    this.uploadTitle = "";
+                    this.uploadDescription = "";
+                    this.uploadUsername = "";
                 })
                 .catch((err) => {
                     this.status = err.status;
+                    this.message = "There has been a problem, please try again";
                 });
         },
         closeAppModal: function () {
             this.id = 0;
         },
+
+        addFavourite: function (value) {
+            console.log("favourite arrived to app from child :", value);
+            this.favourites.unshift(value);
+            console.log("fav array: ", this.favourites);
+        },
+
+        showFavourites: function () {
+            if (this.allpics === 1 && this.allfavs === 0) {
+                this.allpics = 0;
+                this.allfavs = 1;
+            } else {
+                this.allpics = 1;
+                this.allfavs = 0;
+            }
+        },
+
         getMoreImages() {
             let imageIdArray = [];
             this.images.forEach((image) => imageIdArray.push(image.id));
@@ -84,11 +154,11 @@ const app = Vue.createApp({
                     // );
                     // console.log("updated array: ", this.images);
 
-                    console.log("this.lowestIdOnTable: ", this.lowestIdOnTable);
-                    console.log(
-                        "this.images[this.images.length - 1].id: ",
-                        this.images[this.images.length - 1].id
-                    );
+                    // console.log("this.lowestIdOnTable: ", this.lowestIdOnTable);
+                    // console.log(
+                    //     "this.images[this.images.length - 1].id: ",
+                    //     this.images[this.images.length - 1].id
+                    // );
                     if (
                         this.images[this.images.length - 1].id ===
                         this.lowestIdOnTable
@@ -102,15 +172,30 @@ const app = Vue.createApp({
         },
     },
     mounted() {
+        let browserUrl = location.pathname;
+        let filteredUrl = parseInt(browserUrl.substring("8")); //we cut "/images/" after the slash to get the current id
+        if (filteredUrl != 0) {
+            this.id = filteredUrl;
+            //console.log("we have an id");
+        }
+
         fetch("/images.json")
             .then((result) => result.json())
             .then((imagesArray) => {
                 this.images = imagesArray;
+                //console.log("location.pathname: ", location.pathname);
             });
 
-        // if (this.images.length >= 3) {
-        //     this.button = 1;
-        // }
+        addEventListener("popstate", (e) => {
+            let browserUrl = location.pathname;
+            //console.log("browserUrl: ", browserUrl);
+            let filteredUrl = parseInt(browserUrl.substring("8")); //we cut "/images/" after the slash to get the current id
+            //console.log("parsed+filtered: ", filteredUrl);
+            if (filteredUrl != 0) {
+                this.id = filteredUrl;
+                //console.log("we have an id");
+            }
+        });
     },
 });
 
