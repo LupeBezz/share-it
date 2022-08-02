@@ -33,7 +33,7 @@
                         <div id="form-top-row">
                             <input v-model="uploadTitle" placeholder="Title" name="uploadTitle" class="uploadInput" maxlength="25" autocomplete="off"> 
                             <input v-model="uploadDescription" placeholder="Description" name="uploadDescription" class="uploadInput" maxlength="50" autocomplete="off"> 
-                            <input v-model="uploadUsername" placeholder="Username" name="uploadUsername" class="uploadInput " maxlength="15" autocomplete="off"> 
+                            <input v-model="uploadUsername" placeholder="Username" name="uploadUsername" class="uploadInput " maxlength="20" autocomplete="off"> 
                         </div>
                         <div id="form-middle-row">
                             <input type="file" name="uploadPicture" id="uploadPicture" accept="image/*"> 
@@ -41,6 +41,7 @@
                         </div>
                         <div id="form-bottom-row">
                             <p id="uploadMessage">{{message}}</p>
+                            <p id="uploadLoading">{{loading}}</p>
                         </div>
                     </form>
                 </section>
@@ -60,7 +61,8 @@
                     <div id="polaroid-image">
                         <img v-bind:src="image.url" v-bind:alt="image.description" @click="this.id=image.id">
                     </div>
-                    <p id="polaroid-text">{{ image.title }}</p>
+                    <p v-if="image.title" id="polaroid-text">{{ image.title }}</p>
+                    <p v-else id="polaroid-text">untitled</p>
                 </div>
             </section>
 
@@ -69,7 +71,8 @@
                     <div id="polaroid-image">
                         <img v-bind:src="favourite.url" v-bind:alt="favourite.description" @click="this.id=favourite.id">
                     </div>
-                    <p id="polaroid-text">{{ favourite.title }}</p>
+                    <p v-if="favourite.title" id="polaroid-text">{{ favourite.title }}</p>
+                    <p v-else id="polaroid-text">untitled</p>
                 </div>
             </section>
             

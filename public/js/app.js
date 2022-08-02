@@ -19,6 +19,7 @@ const app = Vue.createApp({
             images: [],
             favourites: [],
             message: "",
+            loading: "",
             id: 0,
             lowestIdOnTable: "",
             button: 1,
@@ -62,9 +63,9 @@ const app = Vue.createApp({
                     "your description cannot be longer that 50 characters";
                 return;
             }
-            if (usernameInput.value.length > 15) {
+            if (usernameInput.value.length > 20) {
                 this.message =
-                    "your username cannot be longer that 15 characters";
+                    "your username cannot be longer that 20 characters";
                 return;
             }
 
@@ -83,14 +84,12 @@ const app = Vue.createApp({
                 this.message = "your picture cannot be bigger than 2MB";
                 return;
             } else {
-                // console.log(
-                //     "fileInput.files[0].size: ",
-                //     fileInput.files[0].size
-                // );
+                this.loading = "loading...";
             }
 
             //now that we know that everything is ok, we submit the form
-            this.message = "your file is being uploaded";
+            // this.message = "your file is being uploaded";
+
             const formData = new FormData(form);
             fetch("/upload.json", { method: "post", body: formData })
                 .then((res) => res.json())
@@ -105,6 +104,7 @@ const app = Vue.createApp({
                     this.uploadTitle = "";
                     this.uploadDescription = "";
                     this.uploadUsername = "";
+                    this.loading = "";
                 })
                 .catch((err) => {
                     this.status = err.status;

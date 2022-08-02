@@ -139,10 +139,22 @@ header {
     border: 3px solid black;
 }
 
+#form-bottom-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 #uploadMessage {
     font-family: "Baloo 2", cursive;
     font-size: 1.5vw;
     color: red;
+}
+
+#uploadLoading {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.5vw;
+    color: black;
 }
 
 ::-webkit-file-upload-button {
@@ -361,6 +373,10 @@ header {
     }
     #uploadMessage {
         font-size: 2vw;
+    }
+    #uploadLoading {
+        font-size: 2vw;
+        color: black;
     }
     #comments-inputfield {
         width: 10vw;

@@ -57,7 +57,7 @@ const modalComponent = {
                     <comments-component :id="id"></comments-component>
                     <div id="modal-text">
                     <favourites-component :id="id" @favourite="sendFavourite"></favourites-component>
-                        <p id="modal-title" v-if="imageInfo.title" v-if="imageInfo.description">{{imageInfo.title}} - {{imageInfo.description}}  </p>
+                        <p id="modal-title" v-if="imageInfo.title">{{imageInfo.title}} - {{imageInfo.description}}  </p>
                         <p id="modal-title" v-else> Untitled </p>
                         <p id="modal-username" v-if="imageInfo.username">Uploaded by {{imageInfo.username}} on {{imageData}} </p>
                         <p id="modal-username" v-else>Uploaded anonimously on {{imageData}} </p>   

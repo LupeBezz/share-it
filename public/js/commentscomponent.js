@@ -9,6 +9,7 @@ const commentsComponent = {
             data: [],
             comment: "",
             username: "",
+            commentdata: "",
             error: "",
             message: "",
         };
@@ -56,7 +57,16 @@ const commentsComponent = {
                 })
                     .then((res) => res.json())
                     .then((response) => {
-                        //console.log("response[0]: ", response[0]);
+                        console.log("response[0]: ", response[0]);
+
+                        let unparsedData = response[0].created_at;
+                        let parsedData =
+                            unparsedData.slice(8, 10) +
+                            "/" +
+                            unparsedData.slice(5, 7) +
+                            "/" +
+                            unparsedData.slice(0, 4);
+                        this.commentdata = parsedData;
                         this.allcomments.unshift(response[0]);
                         this.comment = "";
                         this.username = "";
@@ -81,7 +91,7 @@ const commentsComponent = {
             <div id="comments-display">
                 <div v-for="comment in allcomments">
                 <p id="comment-display" v-if="comment.username" >{{comment.comment}} - by {{comment.username}} on {{this.data}} </p>
-                <p id="comment-display" v-else>{{comment.comment}} - posted anonimously on {{this.data}} </p>
+                <p id="comment-display" v-else>{{comment.comment}} - posted anonimously on {{this.commentdata}} </p>
                 </div>
             </div>
         </div>`,
