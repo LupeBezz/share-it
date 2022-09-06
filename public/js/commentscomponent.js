@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - comments component
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - comments component
 
 const commentsComponent = {
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - data
+
     data() {
         return {
             allcomments: [],
-            data: [],
             comment: "",
             username: "",
             commentdata: "",
@@ -15,34 +16,26 @@ const commentsComponent = {
         };
     },
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - props: passed parent > child
+
     props: ["id"],
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - when mounted...
+
     mounted() {
-        //console.log("the commentsComponent is connected");
-        //console.log("this.id: ", this.id);
-        let unparsedData;
         fetch(`/comments/${this.id}`)
             .then((result) => result.json())
             .then((commentsFromTable) => {
                 //console.log("commentsFromTable: ", commentsFromTable);
                 this.allcomments = commentsFromTable;
                 //console.log("this.allcomments: ", this.allcomments);
-                unparsedData = commentsFromTable[0]?.created_at;
-                let parsedData =
-                    unparsedData.slice(8, 10) +
-                    "/" +
-                    unparsedData.slice(5, 7) +
-                    "/" +
-                    unparsedData.slice(0, 4);
-                this.data = parsedData;
-                console.log("unparsedData: ", unparsedData);
-                console.log("parsedData: ", parsedData);
             });
     },
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - methods
+
     methods: {
         postComment: function (e) {
-            //console.log("e", e.target);
             if (this.comment.length >= 1) {
                 fetch("/upload/comment", {
                     method: "post",
@@ -57,19 +50,13 @@ const commentsComponent = {
                 })
                     .then((res) => res.json())
                     .then((response) => {
-                        console.log("response[0]: ", response[0]);
-
-                        let unparsedData = response[0].created_at;
-                        let parsedData =
-                            unparsedData.slice(8, 10) +
-                            "/" +
-                            unparsedData.slice(5, 7) +
-                            "/" +
-                            unparsedData.slice(0, 4);
-                        this.commentdata = parsedData;
+                        //console.log("response[0]: ", response[0]);
                         this.allcomments.unshift(response[0]);
+
+                        //clean input field again
                         this.comment = "";
                         this.username = "";
+                        this.message = "";
                     })
                     .catch((err) => {
                         this.status = err.status;
@@ -78,7 +65,18 @@ const commentsComponent = {
                 this.message = "Please enter a comment";
             }
         },
+        parseDate: function (date) {
+            let parsedDate =
+                date.slice(8, 10) +
+                "/" +
+                date.slice(5, 7) +
+                "/" +
+                date.slice(0, 4);
+            return parsedDate;
+        },
     },
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - template
 
     template: `
         <div id="comments-component">
@@ -90,13 +88,13 @@ const commentsComponent = {
             <p id="comments-message">{{this.message}}</p>
             <div id="comments-display">
                 <div v-for="comment in allcomments">
-                <p id="comment-display" v-if="comment.username" >{{comment.comment}} - by {{comment.username}} on {{this.data}} </p>
-                <p id="comment-display" v-else>{{comment.comment}} - posted anonimously on {{this.commentdata}} </p>
+                <p id="comment-display" v-if="comment.username" >{{comment.comment}} - by {{comment.username}} on {{parseDate(comment.created_at)}} </p>
+                <p id="comment-display" v-else>{{comment.comment}} - posted anonimously on {{parseDate(comment.created_at)}} </p>
                 </div>
             </div>
         </div>`,
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - we export the component
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - we export the component
 
 export default commentsComponent;

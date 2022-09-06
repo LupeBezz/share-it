@@ -147,18 +147,6 @@ const app = Vue.createApp({
                     moreImages.forEach((image) => this.images.push(image));
                     this.lowestIdOnTable = moreImages[0].lowestIdOnTable;
 
-                    // console.log("moreImages: ", moreImages);
-                    // console.log(
-                    //     "moreImages[0].lowestIdOnTable",
-                    //     moreImages[0].lowestIdOnTable
-                    // );
-                    // console.log("updated array: ", this.images);
-
-                    // console.log("this.lowestIdOnTable: ", this.lowestIdOnTable);
-                    // console.log(
-                    //     "this.images[this.images.length - 1].id: ",
-                    //     this.images[this.images.length - 1].id
-                    // );
                     if (
                         this.images[this.images.length - 1].id ===
                         this.lowestIdOnTable

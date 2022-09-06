@@ -17,8 +17,7 @@ const favouritesComponent = {
                 .then((result) => result.json())
                 .then((imageInfoDB) => {
                     console.log("imageInfoDB[0]: ", imageInfoDB[0]);
-                    //this.favourites.unshift(imageInfoDB[0]);
-                    //console.log("this.favourites: ", this.favourites);
+
                     this.$emit("favourite", imageInfoDB[0]);
                 });
             e.target.style.color = "red";
