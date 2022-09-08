@@ -19,22 +19,22 @@ Share it! is a platform to upload and comment pictures in a simple way. Layout i
 upload menu that dissapears when user starts scrolling
 &nbsp;
 
-<kbd><img src="client/public/gifs/01_startpage.gif" width="80vw"/></kbd>
+<kbd><img src="public/gifs/01_startpage.gif" width="80vw"/></kbd>
 
 **image loading** <br/>
 pictures are loaded in groups of six for an easier experience
 &nbsp;
 
-<kbd><img src="client/public/gifs/02_morepictures.gif" width="80vw"/></kbd>
+<kbd><img src="public/gifs/02_morepictures.gif" width="80vw"/></kbd>
 
 **comments** <br/>
 real time picture comments 
 &nbsp;
 
-<kbd><img src="client/public/gifs/03_comments.gif" width="80vw"/></kbd>
+<kbd><img src="public/gifs/03_comments.gif" width="80vw"/></kbd>
 
 **favourites** <br/>
 pictures can be marked as favourite and filtered
 &nbsp;
 
-<kbd><img src="client/public/gifs/04_favourites.gif" width="80vw"/></kbd>
+<kbd><img src="public/gifs/04_favourites.gif" width="80vw"/></kbd>
