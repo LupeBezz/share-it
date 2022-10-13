@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - local / heroku databases
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - database info
 
 let dbUrl;
 
@@ -17,10 +17,15 @@ if (process.env.NODE_ENV === "production") {
     dbUrl = `postgres:${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - middleware
+
+// to handle the database
 const spicedPg = require("spiced-pg");
 const db = spicedPg(dbUrl);
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function getImages + getMoreImages
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - database functions
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GET IMAGES
 
 module.exports.getImages = () => {
     return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 3`);
@@ -33,7 +38,7 @@ module.exports.getMoreImages = (id) => {
     );
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function insertImage
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INSERT IMAGE
 
 module.exports.insertImage = (title, description, username, url) => {
     return db.query(
@@ -42,13 +47,13 @@ module.exports.insertImage = (title, description, username, url) => {
     );
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function getImagesInfo
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GET IMAGE INFO
 
 module.exports.getImagesInfo = (id) => {
     return db.query(`SELECT * FROM images WHERE id = $1`, [id]);
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function insertComments
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INSERT COMMENTS
 
 module.exports.insertComment = (id, comment, username) => {
     return db.query(
@@ -57,7 +62,7 @@ module.exports.insertComment = (id, comment, username) => {
     );
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - function getComments
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GET COMMENTS
 
 module.exports.getComments = (id) => {
     return db.query(

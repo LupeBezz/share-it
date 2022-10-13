@@ -1,34 +1,43 @@
 /* eslint-disable no-unused-vars */
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - general stuff
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - create server (express)
 
-const path = require("path");
 const express = require("express");
 const app = express();
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - middleware
+
+// to work with file and directory paths
+const path = require("path");
+
+// to parse the request bodies in forms and make the info available as req.body
 app.use(express.urlencoded({ extended: false }));
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - require other files
-
-const db = require("./db");
+// (aws) to upload files to aws
 const s3 = require("./s3");
+
+// to store files in the local server
 const uploader = require("./middleware").uploader;
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - serve public / uploads folder
+// to unpack JSON in the request body
+app.use(express.json());
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - require our database
+
+const db = require("./db");
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - serve public folder and uploads
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "uploads")));
 
-//express.json parses bodies that are in JSON format
-app.use(express.json());
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - routes
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - requests
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - get images from database
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GET LAST IMAGES FROM DB
 
 app.get("/images.json", (req, res) => {
     db.getImages()
         .then((results) => {
-            //console.log("results.rows: ", results.rows);
             res.json(results.rows);
         })
         .catch((err) => {
@@ -36,29 +45,23 @@ app.get("/images.json", (req, res) => {
         });
 });
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - get more images from database
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GET MORE IMAGES FROM DB
 
 app.get("/more-images/:id", (req, res) => {
     db.getMoreImages(req.params.id)
         .then((results) => {
-            //console.log("results.rows: ", results.rows);
             res.json(results.rows);
         })
         .catch((err) => {
             console.log("error in getMoreImages after db query: ", err);
-            console.log(req.params.id);
         });
 });
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - get image info from database
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GET IMAGE INFO FROM DB
 
 app.get("/image/:id", (req, res) => {
-    console.log("hitting /image/:id route");
-    console.log("req.params: ", req.params);
-
     db.getImagesInfo(req.params.id)
         .then((results) => {
-            console.log("results.rows: ", results.rows);
             res.json(results.rows);
         })
         .catch((err) => {
@@ -66,17 +69,13 @@ app.get("/image/:id", (req, res) => {
         });
 });
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - post images
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - UPLOAD IMAGE
 
 app.post(
     "/upload.json",
     uploader.single("uploadPicture"),
     s3.upload,
     (req, res) => {
-        //console.log("inside post -upload.json");
-        //console.log("req.body inside post-upload: ", req.body);
-        //console.log("req.file inside post-upload:", req.file);
-
         let fullUrl =
             "https://s3.amazonaws.com/spicedling/" + req.file.filename;
 
@@ -87,8 +86,6 @@ app.post(
             fullUrl
         )
             .then((results) => {
-                console.log("insertImage worked!");
-                console.log("results:", results);
                 res.json(results.rows);
             })
             .catch((err) => {
@@ -97,12 +94,11 @@ app.post(
     }
 );
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - get comments from database
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GET COMMENTS FROM DB
 
 app.get("/comments/:id", (req, res) => {
     db.getComments(req.params.id)
         .then((results) => {
-            console.log("results.rows: ", results.rows);
             res.json(results.rows);
         })
         .catch((err) => {
@@ -110,18 +106,11 @@ app.get("/comments/:id", (req, res) => {
         });
 });
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - post comments
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - UPLOAD COMMENT
 
 app.post("/upload/comment", (req, res) => {
-    //console.log("inside post -upload.json");
-    //console.log("req.body inside post-upload: ", req.body);
-    //console.log("req.file inside post-upload:", req.file);
-
     db.insertComment(req.body.id, req.body.comment, req.body.username)
         .then((results) => {
-            console.log("insertComment worked!");
-            // console.log("results:", results);
-            console.log("results.rows from insertComment:", results.rows);
             res.json(results.rows);
         })
         .catch((err) => {
@@ -129,14 +118,13 @@ app.post("/upload/comment", (req, res) => {
         });
 });
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - get * basic html - always at the end!!!
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - SERVE HTML (always in the end!)
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
-    // history.pushState(null, null, "/");
 });
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - listen to the server
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - listen to the server
 
 const PORT = 8080 || process.env.PORT;
 app.listen(PORT, () => console.log(`I'm listening on ${PORT}`));
